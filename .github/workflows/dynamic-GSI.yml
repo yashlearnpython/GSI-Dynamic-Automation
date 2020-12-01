@@ -1,13 +1,12 @@
-name: Building GSI..
+name: Building Dynamic GSI..
 
 on: [push]
 
 env:
-  ROM_URL: https://tdrive.elytra8.workers.dev/OnePlus7TOxygen_14.I.21_OTA_021_all_2011052319_9d5413f6c8692a4.zip
-  ROM_NAME: OxygenOS
-  SCRIPT: dyn.sh
-  FZIPNAME: OnePlus7TOxygen_14.I.21_OTA_021_all_2011052319_9d5413f6c8692a4.zip
-  ZIP_NAME: OxygenOS-dynamic
+  ROM_URL: https://tdrive.elytra8.workers.dev/redfin-rd1a.201105.003.c1-factory-18a4b5bc.zip
+  ROM_NAME: PixelR
+  FZIPNAME: redfin-rd1a.201105.003.c1-factory-18a4b5bc.zip
+  ZIP_NAME: Pixel_dynamic
   TZ: Asia/Kolkata
 jobs:
   build:
@@ -33,7 +32,7 @@ jobs:
 
        
        - name: Clone ErfanGSI Source Code
-         run: git clone --recurse-submodules https://github.com/erfanoabdi/ErfanGSIs.git
+         run: git clone --recurse-submodules https://github.com/nnippon/ErfanGSIs.git
        
        - name: Setting up ErfanGSI requirements
          run: |
@@ -44,20 +43,17 @@ jobs:
        - name: Dynamic Setup
          run: |
               cd ErfanGSIs
-              wget https://github.com/nnippon/ErfanGSIs/raw/master/dyn.sh
-              wget https://github.com/nnippon/ErfanGSIs/raw/master/dynamicmiui.sh
               wget $ROM_URL
-              sudo chmod +x *.sh
-              sudo bash $SCRIPT $ROM_NAME $FZIPNAME
-              sudo umount system
-              sudo rm -rf system
-              cd cache
-              sudo mkdir dynamic
-              sudo mount -o ro system.img dynamic
-              cd .. && sudo ./url2GSI.sh cache/dynamic $ROM_NAME
+              if [ $ROM_NAME = "MIUI" ]
+              then
+              sudo bash dynamicmiui.sh $FZIPNAME
+              else
+              sudo bash dyn.sh $ROM_NAME $FZIPNAME
+              fi
+              mkdir output
+              sudo bash make.sh system $ROM_NAME AB output && sudo bash make.sh $ROM_NAME Aonly output
        - name: Zip Aonly and upload 
          run: |
-              mkdir final
               sudo chmod -R 777 ErfanGSIs/output
               cd ErfanGSIs/output
               zip -r $ZIP_NAME-GSI-Aonly.7z *-Aonly-*.img
@@ -95,6 +91,5 @@ jobs:
               interact"
        - name: Print build info
          run: |
-              cat ErfanGSIs/output/*-Aonly-*.txt
               cat ErfanGSIs/output/*-AB-*.txt
             
