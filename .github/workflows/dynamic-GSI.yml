@@ -52,7 +52,7 @@ jobs:
               sudo umount system
               sudo rm -rf system
               cd cache
-              mkdir dynamic
+              sudo mkdir dynamic
               sudo mount -o ro system.img dynamic
               cd .. && sudo ./url2GSI.sh cache/dynamic $ROM_NAME
        - name: Zip Aonly and upload 
