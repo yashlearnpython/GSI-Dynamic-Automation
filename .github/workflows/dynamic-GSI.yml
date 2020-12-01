@@ -45,8 +45,8 @@ jobs:
               cd ErfanGSIs
               wget $ROM_URL
               mkdir working
-              sudo bash dyn.sh $ROM_NAME $FZIPNAME
               mkdir output
+              sudo bash dyn.sh $ROM_NAME $FZIPNAME
               sudo bash make.sh working/system $ROM_NAME AB output && sudo bash make.sh working/system $ROM_NAME Aonly output
        - name: Zip Aonly and upload 
          run: |
