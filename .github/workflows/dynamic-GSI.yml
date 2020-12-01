@@ -46,8 +46,9 @@ jobs:
               cd ErfanGSIs
               wget https://github.com/nnippon/ErfanGSIs/raw/master/dyn.sh
               wget https://github.com/nnippon/ErfanGSIs/raw/master/dynamicmiui.sh
-              aria2c $ROM_URL
-              sudo ./$SCRIPT $ROM_NAME $FZIPNAME
+              wget $ROM_URL
+              sudo chmod +x *.sh
+              sudo bash $SCRIPT $ROM_NAME $FZIPNAME
               sudo umount system
               sudo rm -rf system
               cd cache
