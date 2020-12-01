@@ -4,7 +4,7 @@ on: [push]
 
 env:
   ROM_URL: https://tdrive.elytra8.workers.dev/miui_CITRUSEEAGlobal_V12.0.4.0.QJFEUXM_fa235c96ea_10.0.zip
-  ROM_NAME: PixelR
+  ROM_NAME: MIUI
   FZIPNAME: miui_CITRUSEEAGlobal_V12.0.4.0.QJFEUXM_fa235c96ea_10.0.zip
   ZIP_NAME: MIUI_dynamic
   TZ: Asia/Kolkata
