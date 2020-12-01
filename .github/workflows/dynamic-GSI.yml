@@ -1,0 +1,99 @@
+name: Building GSI..
+
+on: [push]
+
+env:
+  ROM_URL: https://tdrive.elytra8.workers.dev/OnePlus7TOxygen_14.I.21_OTA_021_all_2011052319_9d5413f6c8692a4.zip
+  ROM_NAME: OxygenOS
+  SCRIPT: dyn.sh
+  FZIPNAME: OnePlus7TOxygen_14.I.21_OTA_021_all_2011052319_9d5413f6c8692a4.zip
+  ZIP_NAME: OxygenOS-dynamic
+  TZ: Asia/Kolkata
+jobs:
+  build:
+    runs-on: ubuntu-18.04
+
+    steps:
+       - name: Checkout
+         uses: actions/checkout@master
+       
+       - name: Clean Up
+         run: |
+           docker rmi `docker images -q`
+           sudo rm -rf /usr/share/dotnet /etc/mysql /etc/php /etc/apt/sources.list.d
+           sudo -E apt-get -y purge azure-cli ghc* zulu* hhvm llvm* firefox google* dotnet* powershell openjdk* mysql* php*
+           sudo -E apt-get update
+           sudo -E apt-get -y autoremove --purge
+           sudo -E apt-get clean 
+           
+       - name: Initializing environment
+         run: |
+            sudo -E apt-get -qq update
+            sudo -E apt-get -qq install git openjdk-8-jdk wget expect
+
+       
+       - name: Clone ErfanGSI Source Code
+         run: git clone --recurse-submodules https://github.com/erfanoabdi/ErfanGSIs.git
+       
+       - name: Setting up ErfanGSI requirements
+         run: |
+              sudo chmod -R 777 ErfanGSIs
+              cd ErfanGSIs
+              sudo bash setup.sh
+       
+       - name: Dynamic Setup
+         run: |
+              cd ErfanGSIs
+              wget https://github.com/nnippon/ErfanGSIs/raw/master/dyn.sh
+              wget https://github.com/nnippon/ErfanGSIs/raw/master/dynamicmiui.sh
+              aria2c $ROM_URL
+              sudo ./$SCRIPT $ROM_NAME $FZIPNAME
+              sudo umount system
+              sudo rm -rf system
+              cd cache
+              mkdir dynamic
+              sudo mount -o ro system.img dynamic
+              cd .. && sudo ./url2GSI.sh cache/dynamic $ROM_NAME
+       - name: Zip Aonly and upload 
+         run: |
+              mkdir final
+              sudo chmod -R 777 ErfanGSIs/output
+              cd ErfanGSIs/output
+              zip -r $ZIP_NAME-GSI-Aonly.7z *-Aonly-*.img
+              expect -c " 
+              spawn sftp ${{ secrets.SFUSER }}@frs.sourceforge.net
+              expect \"yes/no\"
+              send \"yes\r\"
+              expect \"Password\"        
+              send \"${{ secrets.SFPASS }}\r\"
+              expect \"sftp> \"
+              send \"cd ${{ secrets.SFDIR }}\r\"
+              set timeout -1
+              send \"put $ZIP_NAME-GSI-Aonly.7z\r\"
+              expect \"Uploading\"
+              expect \"100%\"
+              expect \"sftp>\"
+              send \"bye\r\"
+              interact"      
+       - name: Zip AB and upload 
+         run: |
+              cd ErfanGSIs/output
+              zip -r $ZIP_NAME-GSI-AB.7z *-AB-*.img
+              expect -c " 
+              spawn sftp ${{ secrets.SFUSER }}@frs.sourceforge.net
+              expect \"Password\"        
+              send \"${{ secrets.SFPASS }}\r\"
+              expect \"sftp> \"
+              send \"cd ${{ secrets.SFDIR }}\r\"
+              set timeout -1
+              send \"put $ZIP_NAME-GSI-AB.7z\r\"
+              expect \"Uploading\"
+              expect \"100%\"
+              expect \"sftp>\"
+              send \"bye\r\"
+              interact"
+       - name: Print build info
+         run: |
+              cat ErfanGSIs/output/*-Aonly-*.txt
+              cat ErfanGSIs/output/*-AB-*.txt
+            
