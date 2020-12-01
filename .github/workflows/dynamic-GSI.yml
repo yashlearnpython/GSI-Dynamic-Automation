@@ -48,7 +48,7 @@ jobs:
               then
               sudo bash dynamicmiui.sh $FZIPNAME
               else
-              sudo bash dyn.sh $ROM_NAME &FZIPNAME
+              sudo bash dyn.sh $ROM_NAME $FZIPNAME
               fi
               mkdir output
               sudo bash make.sh system $ROM_NAME AB output && sudo bash make.sh $ROM_NAME Aonly output
