@@ -49,7 +49,8 @@ jobs:
               wget https://github.com/nnippon/ErfanGSIs/raw/master/dynamicmiui.sh
               wget $ROM_URL
               sudo chmod +x *.sh
-              if [ $ROM_NAME = "MIUI" ]; then
+              if [ $ROM_NAME = "MIUI" ]
+              then
               sudo bash dynamicmiui.sh $FZIPNAME
               else
               sudo bash dyn.sh $ROM_NAME &FZIPNAME
