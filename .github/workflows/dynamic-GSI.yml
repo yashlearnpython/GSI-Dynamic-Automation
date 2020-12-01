@@ -96,6 +96,5 @@ jobs:
               interact"
        - name: Print build info
          run: |
-              cat ErfanGSIs/output/*-Aonly-*.txt
               cat ErfanGSIs/output/*-AB-*.txt
             
