@@ -32,7 +32,7 @@ jobs:
 
        
        - name: Clone ErfanGSI Source Code
-         run: git clone --recurse-submodules https://github.com/erfanoabdi/ErfanGSIs.git
+         run: git clone --recurse-submodules https://github.com/nnippon/ErfanGSIs.git
        
        - name: Setting up ErfanGSI requirements
          run: |
@@ -43,12 +43,7 @@ jobs:
        - name: Dynamic Setup
          run: |
               cd ErfanGSIs
-              sudo rm -rf zip2img.sh
-              wget https://raw.githubusercontent.com/nnippon/ErfanGSIs/master/zip2img.sh
-              wget https://github.com/nnippon/ErfanGSIs/raw/master/dyn.sh
-              wget https://github.com/nnippon/ErfanGSIs/raw/master/dynamicmiui.sh
               wget $ROM_URL
-              sudo chmod +x *.sh
               if [ $ROM_NAME = "MIUI" ]
               then
               sudo bash dynamicmiui.sh $FZIPNAME
