@@ -3,10 +3,10 @@ name: Building Dynamic GSI..
 on: [push]
 
 env:
-  ROM_URL: https://tdrive.elytra8.workers.dev/redfin-rd1a.201105.003.c1-factory-18a4b5bc.zip
-  ROM_NAME: PixelR
-  FZIPNAME: redfin-rd1a.201105.003.c1-factory-18a4b5bc.zip
-  ZIP_NAME: Pixel_dynamic
+  ROM_URL: https://tdrive.elytra8.workers.dev/miui_CITRUSEEAGlobal_V12.0.4.0.QJFEUXM_fa235c96ea_10.0.zip
+  ROM_NAME: MIUI
+  FZIPNAME: miui_CITRUSEEAGlobal_V12.0.4.0.QJFEUXM_fa235c96ea_10.0.zip
+  ZIP_NAME: MIUI_dynamic
   TZ: Asia/Kolkata
 jobs:
   build:
@@ -44,14 +44,10 @@ jobs:
          run: |
               cd ErfanGSIs
               wget $ROM_URL
-              if [ $ROM_NAME = "MIUI" ]
-              then
-              sudo bash dynamicmiui.sh $FZIPNAME
-              else
-              sudo bash dyn.sh $ROM_NAME $FZIPNAME
-              fi
+              mkdir working
               mkdir output
-              sudo bash make.sh system $ROM_NAME AB output && sudo bash make.sh $ROM_NAME Aonly output
+              sudo bash dyn.sh $ROM_NAME $FZIPNAME
+              sudo bash make.sh working/system $ROM_NAME AB output && sudo bash make.sh working/system $ROM_NAME Aonly output
        - name: Zip Aonly and upload 
          run: |
               sudo chmod -R 777 ErfanGSIs/output
