@@ -3,10 +3,10 @@ name: Building Dynamic GSI..
 on: [push]
 
 env:
-  ROM_URL: https://tdrive.elytra8.workers.dev/miui_CITRUSEEAGlobal_V12.0.4.0.QJFEUXM_fa235c96ea_10.0.zip
-  ROM_NAME: MIUI
-  FZIPNAME: miui_CITRUSEEAGlobal_V12.0.4.0.QJFEUXM_fa235c96ea_10.0.zip
-  ZIP_NAME: MIUI_dynamic
+  ROM_URL: https://tdrive.elytra8.workers.dev/RevengeOS-4.0-R-OFFICIAL-phoenix-20201202-0537.zip
+  ROM_NAME: Generic
+  FZIPNAME: RevengeOS-4.0-R-OFFICIAL-phoenix-20201202-0537.zip
+  ZIP_NAME: Generic_dynamic
   TZ: Asia/Kolkata
 jobs:
   build:
@@ -18,41 +18,44 @@ jobs:
        
        - name: Clean Up
          run: |
-           docker rmi `docker images -q`
-           sudo rm -rf /usr/share/dotnet /etc/mysql /etc/php /etc/apt/sources.list.d
-           sudo -E apt-get -y purge azure-cli ghc* zulu* hhvm llvm* firefox google* dotnet* powershell openjdk* mysql* php*
-           sudo -E apt-get update
-           sudo -E apt-get -y autoremove --purge
-           sudo -E apt-get clean 
+           docker rmi `docker images -q` &> /dev/null
+           sudo rm -rf /usr/share/dotnet /etc/mysql /etc/php /etc/apt/sources.list.d &> /dev/null
+           sudo -E apt-get -y purge azure-cli ghc* zulu* hhvm llvm* firefox google* dotnet* powershell openjdk* mysql* php* &> /dev/null
+           sudo -E apt-get update &> /dev/null
+           sudo -E apt-get -y autoremove --purge &> /dev/null
+           sudo -E apt-get clean &> /dev/null
            
        - name: Initializing environment
          run: |
-            sudo -E apt-get -qq update
-            sudo -E apt-get -qq install git openjdk-8-jdk wget expect
+            sudo -E apt-get -qq update &> /dev/null
+            sudo -E apt-get -qq install git openjdk-8-jdk wget expect &> /dev/null 
 
        
        - name: Clone ErfanGSI Source Code
-         run: git clone --recurse-submodules https://github.com/nnippon/ErfanGSIs.git
+         run: git clone --recurse-submodules https://github.com/nnippon/ErfanGSIs.git &> /dev/null
        
        - name: Setting up ErfanGSI requirements
          run: |
               sudo chmod -R 777 ErfanGSIs
               cd ErfanGSIs
-              sudo bash setup.sh
+              sudo bash setup.sh &> /dev/null
        
        - name: Dynamic Setup
          run: |
               cd ErfanGSIs
-              wget $ROM_URL
+              wget $ROM_URL &> /dev/null
               mkdir working
               mkdir output
               sudo bash dyn.sh $ROM_NAME $FZIPNAME
               sudo bash make.sh working/system $ROM_NAME AB output && sudo bash make.sh working/system $ROM_NAME Aonly output
+       - name: Print build info
+         run: |
+              cat ErfanGSIs/output/*-AB-*.txt
        - name: Zip Aonly and upload 
          run: |
               sudo chmod -R 777 ErfanGSIs/output
               cd ErfanGSIs/output
-              zip -r $ZIP_NAME-GSI-Aonly.7z *-Aonly-*.img
+              zip -r $ZIP_NAME-GSI-Aonly.7z *-Aonly-*.img &> /dev/null
               expect -c " 
               spawn sftp ${{ secrets.SFUSER }}@frs.sourceforge.net
               expect \"yes/no\"
@@ -71,7 +74,7 @@ jobs:
        - name: Zip AB and upload 
          run: |
               cd ErfanGSIs/output
-              zip -r $ZIP_NAME-GSI-AB.7z *-AB-*.img
+              zip -r $ZIP_NAME-GSI-AB.7z *-AB-*.img &> /dev/null
               expect -c " 
               spawn sftp ${{ secrets.SFUSER }}@frs.sourceforge.net
               expect \"Password\"        
@@ -85,7 +88,4 @@ jobs:
               expect \"sftp>\"
               send \"bye\r\"
               interact"
-       - name: Print build info
-         run: |
-              cat ErfanGSIs/output/*-AB-*.txt
             
