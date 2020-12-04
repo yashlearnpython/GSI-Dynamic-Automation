@@ -32,7 +32,7 @@ jobs:
 
        
        - name: Clone ErfanGSI Source Code
-         run: git clone --recurse-submodules https://github.com/Area69Lab/ErfanGSIs.git &> /dev/null
+         run: git clone --recurse-submodules https://github.com/yashlearnpython/ErfanGSIs.git &> /dev/null
        
        - name: Setting up ErfanGSI requirements
          run: |
