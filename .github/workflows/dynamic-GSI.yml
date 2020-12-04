@@ -1,4 +1,4 @@
-name: Building Dynamic GSI TEST..
+name: Building Dynamic GSI..
 
 on: [push]
 
