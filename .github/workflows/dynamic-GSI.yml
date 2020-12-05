@@ -3,10 +3,10 @@ name: Building Dynamic GSI..
 on: [push]
 
 env:
-  ROM_URL: https://tdrive.elytra8.workers.dev/OnePlus8Oxygen_15.I.30_OTA_0300_all_2009301821_09620bbd4a.zip
+  ROM_URL: https://tdrive.elytra8.workers.dev/OnePlus8ProOxygen_15.I.30_OTA_0300_all_2009301822_6eb947ec.zip
   ROM_NAME: OxygenOS
-  FZIPNAME: OnePlus8Oxygen_15.I.30_OTA_0300_all_2009301821_09620bbd4a.zip
-  ZIP_NAME: Oneplus8-bloated
+  FZIPNAME: OnePlus8ProOxygen_15.I.30_OTA_0300_all_2009301822_6eb947ec.zip
+  ZIP_NAME: Oneplus_8pro
   TZ: Asia/Kolkata
 jobs:
   build:
@@ -55,7 +55,7 @@ jobs:
          run: |
               sudo chmod -R 777 ErfanGSIs/output
               cd ErfanGSIs/output
-              zip -r $ROM_NAME-$ZIP_NAME-GSI-Aonly.7z *-Aonly-*.img &> /dev/null
+              zip -r $ROM_NAME-$ZIP_NAME-YASH-GSI-Aonly.7z *-Aonly-*.img &> /dev/null
               expect -c " 
               spawn sftp ${{ secrets.SFUSER }}@frs.sourceforge.net
               expect \"yes/no\"
@@ -65,7 +65,7 @@ jobs:
               expect \"sftp> \"
               send \"cd ${{ secrets.SFDIR }}\r\"
               set timeout -1
-              send \"put $ROM_NAME-$ZIP_NAME-GSI-Aonly.7z\r\"
+              send \"put $ROM_NAME-$ZIP_NAME-YASH-GSI-Aonly.7z\r\"
               expect \"Uploading\"
               expect \"100%\"
               expect \"sftp>\"
@@ -74,7 +74,7 @@ jobs:
        - name: Zip AB and upload 
          run: |
               cd ErfanGSIs/output
-              zip -r $ROM_NAME-$ZIP_NAME-GSI-AB.7z *-AB-*.img &> /dev/null
+              zip -r $ROM_NAME-$ZIP_NAME-YASH-GSI-AB.7z *-AB-*.img &> /dev/null
               expect -c " 
               spawn sftp ${{ secrets.SFUSER }}@frs.sourceforge.net
               expect \"Password\"        
@@ -82,7 +82,7 @@ jobs:
               expect \"sftp> \"
               send \"cd ${{ secrets.SFDIR }}\r\"
               set timeout -1
-              send \"put $ROM_NAME-$ZIP_NAME-GSI-AB.7z\r\"
+              send \"put $ROM_NAME-$ZIP_NAME-YASH-GSI-AB.7z\r\"
               expect \"Uploading\"
               expect \"100%\"
               expect \"sftp>\"
