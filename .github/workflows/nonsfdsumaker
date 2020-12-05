@@ -6,7 +6,7 @@ env:
   ROM_URL: https://tdrive.elytra8.workers.dev/OnePlus8Oxygen_15.I.30_OTA_0300_all_2009301821_09620bbd4a.zip
   ROM_NAME: OxygenOS
   FZIPNAME: OnePlus8Oxygen_15.I.30_OTA_0300_all_2009301821_09620bbd4a.zip
-  ZIP_NAME: Oneplus8-bloated
+  ZIP_NAME: Oneplus8-bloated-test
   TZ: Asia/Kolkata
   MIR: wet  
 jobs:
