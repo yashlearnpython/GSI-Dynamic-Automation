@@ -1,0 +1,73 @@
+name: Building Dynamic GSI..
+
+on: [push]
+
+env:
+  ROM_URL: https://tdrive.elytra8.workers.dev/OnePlus8Oxygen_15.I.30_OTA_0300_all_2009301821_09620bbd4a.zip
+  ROM_NAME: OxygenOS
+  FZIPNAME: OnePlus8Oxygen_15.I.30_OTA_0300_all_2009301821_09620bbd4a.zip
+  ZIP_NAME: Oneplus8-bloated
+  TZ: Asia/Kolkata
+  MIR: wet  
+jobs:
+  build:
+    runs-on: ubuntu-18.04
+
+    steps:
+       - name: Checkout
+         uses: actions/checkout@master
+       
+       - name: Clean Up
+         run: |
+           docker rmi `docker images -q` &> /dev/null
+           sudo rm -rf /usr/share/dotnet /etc/mysql /etc/php /etc/apt/sources.list.d &> /dev/null
+           sudo -E apt-get -y purge azure-cli ghc* zulu* hhvm llvm* firefox google* dotnet* powershell openjdk* mysql* php* &> /dev/null
+           sudo -E apt-get update &> /dev/null
+           sudo -E apt-get -y autoremove --purge &> /dev/null
+           sudo -E apt-get clean &> /dev/null
+           
+       - name: Initializing environment
+         run: |
+            sudo -E apt-get -qq update &> /dev/null
+            sudo -E apt-get -qq install git openjdk-8-jdk wget expect &> /dev/null 
+       
+       - name: Clone ErfanGSI Source Code
+         run: git clone --recurse-submodules https://github.com/yashlearnpython/ErfanGSIs.git &> /dev/null
+       
+       - name: Setting up ErfanGSI requirements
+         run: |
+              sudo chmod -R 777 ErfanGSIs
+              cd ErfanGSIs
+              sudo bash setup.sh &> /dev/null
+       
+       - name: Dynamic Setup
+         run: |
+              cd ErfanGSIs
+              wget $ROM_URL &> /dev/null
+              mkdir working
+              mkdir output
+              sudo bash dyn.sh $ROM_NAME $FZIPNAME
+              sudo bash make.sh working/system $ROM_NAME AB output && sudo bash make.sh working/system $ROM_NAME Aonly output
+       - name: Print build info
+         run: |
+              cat ErfanGSIs/output/*-AB-*.txt
+       - name: Zip Aonly and upload 
+         run: |
+              mkdir final
+              sudo chmod -R 777 ErfanGSIs/output
+              cd ErfanGSIs/output
+              zip -r $ZIP_NAME-GSI-Aonly.7z *-Aonly-*.img
+              touch links.txt
+              curl -sL https://git.io/file-transfer | sh
+              echo "Aonly : " >> links.txt
+              ./transfer $MIR $ZIP_NAME-GSI-Aonly.7z  | grep Download >> links.txt       
+       - name: Zip AB and upload 
+         run: |
+              cd ErfanGSIs/output
+              zip -r $ZIP_NAME-GSI-AB.7z *-AB-*.img
+              ./transfer $MIR $ZIP_NAME-GSI-AB.7z | grep Download >> links.txt   
+              
+       - name: Print build info and download links
+         run: |
+              cat ErfanGSIs/output/*-Aonly-*.txt
+              cat ErfanGSIs/output/links.txt
