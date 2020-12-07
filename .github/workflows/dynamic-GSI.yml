@@ -3,10 +3,10 @@ name: Building Dynamic GSI..
 on: [push]
 
 env:
-  ROM_URL: https://tdrive.elytra8.workers.dev/OnePlus8Hydrogen_15.H.15_OTA_015_all_2005301406_downgrade_435674d7bc234e1a.zip
+  ROM_URL: https://tdrive.elytra8.workers.dev/OnePlus8TOxygen_15.I.16_OTA_0160_all_2010150110_84be0c.zip
   ROM_NAME: OxygenOS
-  FZIPNAME: OnePlus8Hydrogen_15.H.15_OTA_015_all_2005301406_downgrade_435674d7bc234e1a.zip
-  ZIP_NAME: Oneplus_8_hydrogenOS
+  FZIPNAME: OnePlus8TOxygen_15.I.16_OTA_0160_all_2010150110_84be0c.zip
+  ZIP_NAME: Oneplus_8t
   TZ: Asia/Kolkata
 jobs:
   build:
