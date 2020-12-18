@@ -3,10 +3,10 @@ name: Building Dynamic GSI..
 on: [push]
 
 env:
-  ROM_URL: https://tdrive.elytra8.workers.dev/OnePlus7Oxygen_14.P.31_OTA_031_all_2011052313_afdc9.zip
-  ROM_NAME: OxygenOS
-  FZIPNAME: OnePlus7Oxygen_14.P.31_OTA_031_all_2011052313_afdc9.zip
-  ZIP_NAME: Oneplus_7
+  ROM_URL: https://tdrive.elytra8.workers.dev/miui_GRUSEEAGlobal_V12.0.3.0.QFBEUXM_81b6632b04_10.0.zip
+  ROM_NAME: MIUI
+  FZIPNAME: miui_GRUSEEAGlobal_V12.0.3.0.QFBEUXM_81b6632b04_10.0.zip
+  ZIP_NAME: MIUI_MI-9-SE
   TZ: Asia/Kolkata
 jobs:
   build:
