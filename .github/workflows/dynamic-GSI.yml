@@ -3,9 +3,9 @@ name: Building Dynamic GSI..
 on: [push]
 
 env:
-  ROM_URL: https://tdrive.elytra8.workers.dev/OxygenOS_OP7TPro_Ginkgo.zip
+  ROM_URL: https://tdrive.elytra8.workers.dev/OnePlus7TProOxygen_14.I.15_OTA_015_all_2002022100_f057c4d76e.zip
   ROM_NAME: OxygenOS
-  FZIPNAME: OxygenOS_OP7TPro_Ginkgo.zip
+  FZIPNAME: OnePlus7TProOxygen_14.I.15_OTA_015_all_2002022100_f057c4d76e.zip
   ZIP_NAME: OxygenOS_OP7TPro
   TZ: Asia/Kolkata
 jobs:
