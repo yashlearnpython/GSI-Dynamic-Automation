@@ -3,10 +3,10 @@ name: Building Dynamic GSI..
 on: [push]
 
 env:
-  ROM_URL: https://tdrive.elytra8.workers.dev/miui_CITRUSINGlobal_V12.0.1.0.QJFINXM_9d319a2d75_10.0.zip
-  ROM_NAME: MIUI
-  FZIPNAME: miui_CITRUSINGlobal_V12.0.1.0.QJFINXM_9d319a2d75_10.0.zip
-  ZIP_NAME: MIUI_poco_c3
+  ROM_URL: https://tdrive.elytra8.workers.dev/OxygenOS_OP7TPro_Ginkgo.zip
+  ROM_NAME: OxygenOS
+  FZIPNAME: OxygenOS_OP7TPro_Ginkgo.zip
+  ZIP_NAME: OxygenOS_OP7TPro
   TZ: Asia/Kolkata
 jobs:
   build:
