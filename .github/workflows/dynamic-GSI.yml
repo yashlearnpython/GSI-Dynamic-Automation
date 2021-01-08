@@ -3,10 +3,10 @@ name: Building Dynamic GSI..
 on: [push]
 
 env:
-  ROM_URL: https://tdrive.elytra8.workers.dev/OnePlus7TProOxygen_14.I.15_OTA_015_all_2002022100_f057c4d76e.zip
-  ROM_NAME: OxygenOS
-  FZIPNAME: OnePlus7TProOxygen_14.I.15_OTA_015_all_2002022100_f057c4d76e.zip
-  ZIP_NAME: OxygenOS_OP7TPro
+  ROM_URL: https://tdrive.elytra8.workers.dev/20200916163326-mobius-deltaota_31de02108f3e0a5c62d7c56552eaa3dc.zip
+  ROM_NAME: JoyUI
+  FZIPNAME: 20200916163326-mobius-deltaota_31de02108f3e0a5c62d7c56552eaa3dc.zip
+  ZIP_NAME: JoyUI_Blackshark3Pro
   TZ: Asia/Kolkata
 jobs:
   build:
